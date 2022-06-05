@@ -1,0 +1,209 @@
+html, body{
+  padding: 0;
+  margin: 0;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    background: #f0f0f1;
+    color: #3c434a;
+}
+
+.text-center{
+  text-align: center !important;
+}
+
+div#wrapper {
+  padding: 50px 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media ( max-width: 992px ) {
+  .container {
+    max-width: 800px;
+  }
+}
+
+@media ( max-width: 767px ) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+/* Switch */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* input */
+input, select {
+  margin: 0 1px;
+}
+
+input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
+  box-shadow: 0 0 0 transparent;
+  border-radius: 4px;
+  border: 1px solid #8c8f94;
+  background-color: #fff;
+  color: #2c3338;
+}
+
+input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week] {
+  padding: 0 8px;
+  line-height: 2;
+  min-height: 30px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.form-group:not(:last-child){
+  margin-bottom: 10px;
+}
+
+.form-group > *:not(.switch) {
+  flex: 1 1 100%;
+}
+
+.form-group > label:not(.switch) {
+  font-size: .9em;
+  margin-bottom: 8px;
+}
+
+.form-button{
+  margin-top: 20px;
+}
+
+.n-row {
+  display: flex;
+  flex-direction: row;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.n-row [class*=n-col]{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.n-row .n-col-left {
+  flex: 0 1 30%;
+}
+
+.n-row .n-col-right {
+  flex: 0 1 70%;
+}
+
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table th, .table td{
+  border: 1px solid #ccc;
+  background-color: #FFF;
+  padding: 5px 8px;
+}
+
+.button{
+  display: inline-block;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 2.15384615;
+  min-height: 35px;
+  margin: 0;
+  padding: 0 10px;
+  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-appearance: none;
+  border-radius: 3px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.button-primary {
+  background: #2271b1;
+  border-color: #2271b1;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.button-primary:hover {
+  background: #135e96;
+  border-color: #135e96;
+  color: #fff;
+}

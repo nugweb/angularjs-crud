@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nugroho Angular CRUD</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body ng-app="CrudApp" ng-controller="CrudCtrl">
+
+    <div id="wrapper">
+        <div class="container">
+            <h1>Angular JS CRUD</h1>
+
+            <div class="n-row">
+                <div class="n-col-left">
+                    <p ng-if="msg" class="alert alert-success">{{msg}}</p>
+
+                    <form>
+                        <div class="form-group">
+                            <label for="nama_lengkap">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="nama_lengkap" ng-model="item.nama_lengkap">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="domisili">Domisili</label>
+                            <input type="text" class="form-control" id="domisili" ng-model="item.domisili">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <label class="switch">
+                                <input id="status" type="checkbox" ng-model="item.status">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+    
+                        <div class="form-group form-button">
+                            <button type="submit" ng-click="addItem()" class="button button-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="n-col-right">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th>Nama Lengkap</th>
+                                <th class="text-center">Domisili</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="items.length != 0" ng-repeat="item in items">
+                                <td class="text-center">{{ item.id }}</td>
+                                <td>{{ item.nama_lengkap }}</td>
+                                <td class="text-center">{{ item.domisili }}</td>
+                                <td class="text-center">
+                                    <span ng-if="item.status == 1">Aktif</span>
+                                    <span ng-if="item.status == 0">Nonaktif</span>
+                                </td>
+                                <td class="text-center">
+                                    <button ng-click="editItem(item.id)">Edit</button> | 
+                                    <button ng-click="deleteItem(item.id)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr ng-if="items.length == 0">
+                                <td colspan="4" class="text-center">Tidak ada data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+    <script>
+        //buat module
+        var app = angular.module('CrudApp', []);
+
+        //buat controller
+        app.controller('CrudCtrl', function($scope, $http){
+            $scope.item = {};
+            $scope.btn = 'Add';
+            $scope.item.id = null;
+
+            //request server
+            $http.get('select.php').success(function(item){
+                //pasang ke view
+                $scope.items = item;
+
+                console.log('select data: ' + JSON.stringify($scope.items))
+            });
+
+            $scope.addItem = function(){
+                //request server
+                $http.post('insert.php', $scope.item).success(function(){
+
+                    console.log('addItem $scope.item: ' + JSON.stringify($scope.item));
+
+                    //passing ke view
+                    if ($scope.btn == 'Add') {
+                        $scope.msg = 'Item berhasil disimpan';
+                    } else {
+                        $scope.msg = 'Item berhasil diubah';
+                    }
+
+                    $scope.selectItem();
+                    $scope.item.nama_lengkap = null;
+                    $scope.item.domisili = null;
+                    $scope.item.status = null;
+                });
+            }
+
+            $scope.selectItem = function(){
+                $http.get('select.php').success(function(item){
+
+                    console.log('selectItem $scope.item: ' + JSON.stringify($scope.item));
+
+                    //passing ke view
+                    $scope.item = item;
+                    $scope.btn = 'Add';
+                    $scope.item.id = null;
+                    $scope.item.nama_lengkap = null;
+                    $scope.item.domisili = null;
+                    $scope.item.status = null;
+
+                    console.log('selectItem 2 $scope.item: ' + JSON.stringify($scope.item));
+                });
+            }
+
+            $scope.deleteItem = function(id){
+                $http.get('delete.php?id='+id).success(function(){
+                    //passing ke view
+                    $scope.msg = 'Item berhasil dihapus';
+                    $scope.selectItem();
+                });
+            }
+
+            $scope.editItem = function(id){
+                $http.get('select.php?id='+id).success(function(item){
+                    $scope.btn = 'Update';
+
+                    console.log('editItem item: ' + JSON.stringify(item));
+
+                    item.forEach(function(it){
+                        
+                        console.log('it: ' + JSON.stringify(it));
+                        console.log('editItem nama_lengkap: ' + it.nama_lengkap);
+                        console.log('editItem domisili: ' + it.domisili);
+                        console.log('editItem status: ' + it.status);
+                        console.log('editItem id: ' + it.id);
+                        
+                        $scope.item.nama_lengkap = it.nama_lengkap;
+                        $scope.item.domisili = it.domisili;
+                        $scope.item.status = it.status;
+                        $scope.item.id = it.id;
+                    });
+                })
+            }
+
+
+        });
+    </script>
+
+</body>
+</html>
